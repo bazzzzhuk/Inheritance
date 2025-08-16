@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Inheritance", "Inheritance\Inheritance.vcxproj", "{188BC429-C603-401E-9FC0-95BB2898DC1C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Academy", "Academy\Academy.vcxproj", "{8F060F30-89E2-4E6D-8411-0E56E10F52F3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Files", "Files\Files.vcxproj", "{819A2884-F546-494D-8A41-E4C49EF0380A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,14 @@ Global
 		{8F060F30-89E2-4E6D-8411-0E56E10F52F3}.Release|x64.Build.0 = Release|x64
 		{8F060F30-89E2-4E6D-8411-0E56E10F52F3}.Release|x86.ActiveCfg = Release|Win32
 		{8F060F30-89E2-4E6D-8411-0E56E10F52F3}.Release|x86.Build.0 = Release|Win32
+		{819A2884-F546-494D-8A41-E4C49EF0380A}.Debug|x64.ActiveCfg = Debug|x64
+		{819A2884-F546-494D-8A41-E4C49EF0380A}.Debug|x64.Build.0 = Debug|x64
+		{819A2884-F546-494D-8A41-E4C49EF0380A}.Debug|x86.ActiveCfg = Debug|Win32
+		{819A2884-F546-494D-8A41-E4C49EF0380A}.Debug|x86.Build.0 = Debug|Win32
+		{819A2884-F546-494D-8A41-E4C49EF0380A}.Release|x64.ActiveCfg = Release|x64
+		{819A2884-F546-494D-8A41-E4C49EF0380A}.Release|x64.Build.0 = Release|x64
+		{819A2884-F546-494D-8A41-E4C49EF0380A}.Release|x86.ActiveCfg = Release|Win32
+		{819A2884-F546-494D-8A41-E4C49EF0380A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
