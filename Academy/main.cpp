@@ -322,15 +322,12 @@ Human** Load(const std::string& filename, int& n)
 			{
 			group[n] = new Teacher(buffer.substr(12, 12), buffer.substr(24, 12), conv(buffer,36,5), buffer.substr(41, 32), conv(buffer,73, 5));
 			}
-			if (buffer[0] == 71)//T
+			if (buffer[0] == 71)//G
 			{
 			group[n] = new Graduate(buffer.substr(12, 12), buffer.substr(24, 12), conv(buffer, 36, 5), buffer.substr(41, 32), buffer.substr(73, 8), conv(buffer, 81, 8), conv(buffer, 89, 8), buffer.substr(97, std::string::npos));
 			}
-
 			n++;
 		}
-				cout << n << endl;
-
 	}
 	else {
 		std::cerr << "error: file not found" << endl;
