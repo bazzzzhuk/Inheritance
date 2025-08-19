@@ -69,7 +69,7 @@ public:
 	{
 		os.width(TYPE_WIDTH);//метод width(N) задаёт размер поля в которое будет выведено значение
 		os << std::left;
-		os << std::string(strchr(typeid(*this).name(), ' ') + 1) +":";
+		os << std::string(strchr(typeid(*this).name(), ' ') + 1) + ":";
 		//strchr(const char* str, char symbol); в указанной строке(str) находит указанный сивол(symbol).
 		//return os << last_name << " " << first_name << " " << age;
 		os.width(NAME_WIDTH);
@@ -157,7 +157,7 @@ public:
 		os.width(SPECIALITY_WIDTH);
 		os << speciality;
 		os.width(GROUP_WIDTH);
-		os<<group;
+		os << group;
 		os.width(RAT_WIDTH);
 		os << rating;
 		os.width(RAT_WIDTH);
@@ -275,6 +275,14 @@ void Save(Human* group[], const int n, const std::string& filename)
 	system(cmd.c_str()); //метод c_str() возвращает строку в виде массива символов (char*)
 }
 
+double conv(std::string buffer, int i, int ii)
+{
+	std::string buf = buffer.substr(i, ii);
+	const char* str = buf.c_str();
+	double age = atof(str);
+	return age;
+}
+
 Human** Load(const std::string& filename, int& n)
 {
 	Human** group = nullptr;
@@ -289,6 +297,7 @@ Human** Load(const std::string& filename, int& n)
 		{
 			std::getline(fin, buffer);
 			if (buffer.size() < 20)continue;
+			cout << buffer[0] << endl;
 			n++;
 		}
 		cout << "Количество объектов:" << n << endl;
@@ -299,6 +308,28 @@ Human** Load(const std::string& filename, int& n)
 		fin.clear();
 		fin.seekg(0);// переводит гет-курсор(на чтение)в указанную позицию "n"
 		cout << "Position: " << fin.tellg() << endl;//метод tellg() возвращает текущую get-позицию курсора на чтение. -1 - end of file
+		n = 0;
+		while (!fin.eof())
+		{
+			cout << buffer[0] << endl;
+			std::getline(fin, buffer);
+			if (buffer.size() < 20)continue;
+			if (buffer[0] == 83)//S
+			{
+			group[n] = new Student(buffer.substr(12, 12), buffer.substr(24, 12), conv(buffer,36,5), buffer.substr(41, 32), buffer.substr(73, 8), conv(buffer, 81, 8), conv(buffer, 89, 8));
+			}
+			if (buffer[0] == 84)//T
+			{
+			group[n] = new Teacher(buffer.substr(12, 12), buffer.substr(24, 12), conv(buffer,36,5), buffer.substr(41, 32), conv(buffer,73, 5));
+			}
+			if (buffer[0] == 71)//T
+			{
+			group[n] = new Graduate(buffer.substr(12, 12), buffer.substr(24, 12), conv(buffer, 36, 5), buffer.substr(41, 32), buffer.substr(73, 8), conv(buffer, 81, 8), conv(buffer, 89, 8), buffer.substr(97, std::string::npos));
+			}
+
+			n++;
+		}
+				cout << n << endl;
 
 	}
 	else {
