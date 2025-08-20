@@ -314,15 +314,15 @@ Human** Load(const std::string& filename, int& n)
 			cout << buffer[0] << endl;
 			std::getline(fin, buffer);
 			if (buffer.size() < 20)continue;
-			if (buffer[0] == 83)//S
+			if (buffer[0] == 'S')//S
 			{
 			group[n] = new Student(buffer.substr(12, 12), buffer.substr(24, 12), conv(buffer,36,5), buffer.substr(41, 32), buffer.substr(73, 8), conv(buffer, 81, 8), conv(buffer, 89, 8));
 			}
-			if (buffer[0] == 84)//T
+			if (buffer[0] == 'T')//T
 			{
 			group[n] = new Teacher(buffer.substr(12, 12), buffer.substr(24, 12), conv(buffer,36,5), buffer.substr(41, 32), conv(buffer,73, 5));
 			}
-			if (buffer[0] == 71)//G
+			if (buffer[0] == 'G')//G
 			{
 			group[n] = new Graduate(buffer.substr(12, 12), buffer.substr(24, 12), conv(buffer, 36, 5), buffer.substr(41, 32), buffer.substr(73, 8), conv(buffer, 81, 8), conv(buffer, 89, 8), buffer.substr(97, std::string::npos));
 			}
