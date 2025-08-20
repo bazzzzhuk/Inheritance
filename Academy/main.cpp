@@ -366,14 +366,14 @@ Human** Load(const std::string& filename, int& n)
 		cout << "Position: " << fin.tellg() << endl;//метод tellg() возвращает текущую get-позицию курсора на чтение. -1 - end of file
 
 		//4.) Загружаем объекты из файла.
-		for (int i=0; !fin.eof();)
+		for (int i=0; i<n; i++)
 		{
 			std::string buffer;
 			std::getline(fin,buffer,':');
 			if (buffer.size() < 5)continue;
 			group[i] = HumanFactory(buffer);
 			fin >> *group[i];
-			i++;
+			
 		}
 
 
@@ -455,6 +455,7 @@ void main()
 	int n = 0;
 	Human** group = Load("group.txt", n);
 	Print(group, n);
+	Save(group, n, "gruop2.txt");
 	Clear(group, n);
 
 }
