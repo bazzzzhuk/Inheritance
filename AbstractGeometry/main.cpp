@@ -5,11 +5,10 @@ using namespace std;
 #define FIGURA <<std::string(strchr(typeid(*this).name(), ' ') + 1)
 
 /*
-rectangle(Прямоугольник)
 Окружность(circle)
-Треугольник(triangle)->right triangle (прямоугольный треугольник)
-					 ->isosceles triangle (равнобедренный треугольник)
-					 ->triangle
+					  -> triangle	 -> rectangle(Прямоугольник)
+Треугольник(triangle) -> right triangle (прямоугольный треугольник)
+					  -> isosceles triangle (равнобедренный треугольник)
 */
 
 enum Color
@@ -188,14 +187,16 @@ public:
 	}
 	void draw()const override
 	{
+		setlocale(LC_ALL, "C");
 		for (int i = 0; i < Leg_1; i++)
 		{
 			for (int j = 0; j < (Leg_2/Leg_1)*i+1; j++)
 			{
-				cout << "*";
+				cout << "\xDB\xDB";
 			}
 			cout << endl;
 		}
+		setlocale(LC_ALL, "");
 	}
 	void info()const override
 	{
@@ -260,12 +261,8 @@ public:
 void main()
 {
 	setlocale(LC_ALL, "");
-	//Shape shape(Color::Red);
+
 	Square square(5,Color::Red);
-	/*cout << "Длина стороны квадрата: " << square.get_side() << endl;
-	cout << "Площадь квадрата: " << square.get_area() << endl;
-	cout << "Периметр квадрата: " << square.get_perimetr() << endl;*/
-	//square.draw();
 	square.info();
 
 	Rectangle rectangle(5,10,Color::Red);
