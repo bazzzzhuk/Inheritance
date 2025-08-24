@@ -44,7 +44,7 @@ public:
 /////////////
 class Square:public Shape
 { 
-	double side;
+	double side_1;
 public:
 	Square(double side, Color color) :Shape(color)
 	{
@@ -52,26 +52,26 @@ public:
 	}
 	double get_side()const
 	{
-		return side;
+		return side_1;
 	}
 	void set_side(double side)
 	{
-		this->side=side;
+		this->side_1 =side;
 	}
 	double get_area()const override
 	{
-		return side * side;
+		return side_1 * side_1;
 	}
 	double get_perimetr()const override
 	{
-		return 2 * (side+side);
+		return 2 * (side_1 +side_1);
 	}
 	void draw()const override
 	{
 		setlocale(LC_ALL, "C");
-		for (int i = 0; i < side; i++)
+		for (int i = 0; i < side_1; i++)
 		{
-			for (int j = 0; j < side; j++)
+			for (int j = 0; j < side_1; j++)
 			{
 				cout << "\xDB\xDB";
 			}
@@ -90,11 +90,11 @@ void info()const override
   /////////////////
  /// RECTANGLE ///
 /////////////////
-class Rectangle:public Shape
+class Rectangle:public Square
 {
-	double side_1, side_2;
+	double side_1,side_2;
 public:
-	Rectangle(double side_1, double side_2, Color color) :Shape(color)
+	Rectangle(double side_1, double side_2, Color color) :Square(side_1, color)
 	{
 		set_side_1(side_1);
 		set_side_2(side_2);
