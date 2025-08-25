@@ -271,6 +271,6 @@ void main()
 	Triangle triangle(13, 13, Color::Red);
 	triangle.info();
 
-	Circle circle(5, Color::Red);
+	Circle circle(7, Color::Red);
 	circle.info();
 }
