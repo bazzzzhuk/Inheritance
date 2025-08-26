@@ -1,9 +1,10 @@
 ﻿#include<iostream>
 #include<Windows.h>
+#include<conio.h>
 
 using namespace std;
 
-#define DELIMETER "\n-----------------------------\n"
+#define DELIMETER "-----------------------------\n"
 
 namespace Geometry
 {
@@ -29,8 +30,8 @@ namespace Geometry
 	public:
 		static const int MIN_START_X = 100;
 		static const int MIN_START_Y = 100;
-		static const int MAX_START_X = 1000;
-		static const int MAX_START_Y = 600;
+		static const int MAX_START_X = 2000;
+		static const int MAX_START_Y = 2000;
 		static const int MIN_LINE_WIDTH = 1;
 		static const int MAX_LINE_WIDTH = 16;
 		static const int MIN_SIZE = 32;
@@ -85,7 +86,9 @@ namespace Geometry
 			// << "Длина стороны квадрата: " << get_side() << endl;
 			cout << "Площадь квадрата: " << get_area() << endl;
 			cout << "Периметр квадрата: " << get_perimetr() << endl;
+			cout << DELIMETER;
 			draw();
+
 		}
 	};
 	/*class Square :public Shape
@@ -132,6 +135,7 @@ namespace Geometry
 	};*/
 	class Rectangle : public Shape
 	{
+	protected:
 		double width;
 		double height;
 	public:
@@ -197,8 +201,124 @@ namespace Geometry
 	};
 	class Square :public Rectangle
 	{
+	protected:
+		int side;
 	public:
-		Square(int side, SHAPE_TAKE_PARAMETERS) :Rectangle(side,side,SHAPE_GIVE_PARAMETERS){}
+		Square(int side, SHAPE_TAKE_PARAMETERS) :Rectangle(side,side,SHAPE_GIVE_PARAMETERS)
+		{
+			set_side(side);
+		}
+		void set_side(int side)
+		{
+			this->side = side;
+		}
+		int get_side()const
+		{
+			return side;
+		}
+	};
+	class Circle : public Shape
+	{
+	protected:
+		int width;
+		int height;
+	public:
+		Circle(int width, int height, SHAPE_TAKE_PARAMETERS) :Shape(SHAPE_GIVE_PARAMETERS) 
+		{
+				set_width(width);
+				set_height(height);
+		}
+		void set_width(double width)
+		{
+			this->width = width;
+		}
+		void set_height(double height)
+		{
+			this->height = height;
+		}
+		int get_width()const
+		{
+			return width;
+		}
+		int get_height()const
+		{
+			return height;
+		}
+		void draw()const override
+		{
+			HWND hwnd = GetConsoleWindow();
+			//Получаем контекст устройства (DC - Device Context)для окна консоли
+			HDC hdc = GetDC(hwnd);//DC - Это то, на чем мы будем рисовать
+
+			//Создадим инструменты которыми будем рисовать:
+			HPEN hPen = CreatePen(PS_SOLID, 5, color);//PEN карандаш рисует контур фигуры
+			HBRUSH hBrush = CreateSolidBrush(color);//Рисует заливку фигуры
+			//Выберем созданные инструменты:
+			SelectObject(hdc, hPen);
+			SelectObject(hdc, hBrush);
+			//После того все необходимые инструменты созданы и выбраны
+			//можно рисовать:
+			::Ellipse(hdc, start_x, start_y, start_x + width, start_y + height);
+			//hdc, hPen & hBrush занимают ресурсы, а ресурсы надо освобождать:
+			DeleteObject(hBrush);
+			DeleteObject(hPen);
+
+			ReleaseDC(hwnd, hdc);
+		}
+		void jump()const
+		{
+			while (true)
+			{
+				for (int i = height+25; i < height+367; i = i + ((i / 40)))
+				{
+					Geometry::Circle circ(width, height, start_x, i, 2, Geometry::Color::Orange);
+					circ.draw();
+					Sleep(2);
+					system("cls");
+
+					cout << "1";
+				}
+				for (int i = 10; i < 150; i += 20)
+				{
+					Geometry::Circle circ(width, height - i, start_x, 700 + i + i, 2, Geometry::Color::Orange);
+					circ.draw();
+					Sleep(2);
+					system("cls");
+					cout << "2";
+				}
+
+				for (int i = 700; i > 300; i = i - ((i / 110) * (i / 110)))
+				{
+					Geometry::Circle circ(width, height, start_x, i, 2, Geometry::Color::Orange);
+					circ.draw();
+					Sleep(2);
+					system("cls");
+					cout << "3";
+				}
+				for (int i = 0; i < 5; i++)
+				{
+					Geometry::Circle circ(width, height, start_x, 308 + i * i, 2, Geometry::Color::Orange);
+					circ.draw();
+					Sleep(1);
+					system("cls");
+					cout << "5";
+				}
+			}
+		}
+		double get_area()const override
+		{
+			return width * width*3.14159;
+		}
+		double get_perimetr()const override
+		{
+			return 2 * 3.14159*width;
+		}
+		void info()const override
+		{
+			cout << typeid(*this).name() << endl;
+			cout << "Радиус: " << width <<  endl;
+			Shape::info();
+		}
 	};
 }
 
@@ -213,7 +333,12 @@ void main()
 	//Geometry::square.draw();
 	Geometry::Square square(50,100,300,5, Geometry::Color::Red);
 	square.info();
-	Geometry::Rectangle rect(150, 100,550,100,2, Geometry::Color::Orange);
+	Geometry::Rectangle rect(150, 100,550,100,2, Geometry::Color::Green);
 	rect.info();
+	Geometry::Circle circ(300, 300, 200, 300, 2, Geometry::Color::Orange);
+	circ.info();
+	cout << "НАЖМИТЕ ЛЮБУЮ КЛАВИШУ, ЧТОБЫ МЯЧИК ЗАПРЫГАЛ!" << endl;
+	_getch();
+	circ.jump();
 
 }
