@@ -275,8 +275,6 @@ namespace Geometry
 					circ.draw();
 					Sleep(2);
 					system("cls");
-
-					cout << "1";
 				}
 				for (int i = 10; i < 150; i += 20)
 				{
@@ -284,7 +282,6 @@ namespace Geometry
 					circ.draw();
 					Sleep(2);
 					system("cls");
-					cout << "2";
 				}
 
 				for (int i = 700; i > 300; i = i - ((i / 110) * (i / 110)))
@@ -293,7 +290,6 @@ namespace Geometry
 					circ.draw();
 					Sleep(2);
 					system("cls");
-					cout << "3";
 				}
 				for (int i = 0; i < 5; i++)
 				{
@@ -301,7 +297,6 @@ namespace Geometry
 					circ.draw();
 					Sleep(1);
 					system("cls");
-					cout << "5";
 				}
 			}
 		}
