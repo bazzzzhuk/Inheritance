@@ -19,6 +19,26 @@ namespace Geometry
 	};
 #define SHAPE_TAKE_PARAMETERS int start_x, int start_y, int line_width,	Color color
 #define SHAPE_GIVE_PARAMETERS start_x, start_y, line_width, color
+#define GDI_INI HWND hwnd = GetConsoleWindow(); HDC hdc = GetDC(hwnd); HPEN hPen = CreatePen(PS_SOLID, line_width, color);	HBRUSH hBrush = CreateSolidBrush(color); SelectObject(hdc, hPen); SelectObject(hdc, hBrush);
+#define GDI_DEL DeleteObject(hBrush); DeleteObject(hPen); ReleaseDC(hwnd, hdc);
+
+	//class TDI
+	//{
+	//	//Color color;
+	//	TDI(Color color)
+	//	{
+	//		HWND hwnd = GetConsoleWindow();
+	//		HDC hdc = GetDC(hwnd);//DC - Это то, на чем мы будем рисовать
+	//		HPEN hPen = CreatePen(PS_SOLID, 5, color);//PEN карандаш рисует контур фигуры
+	//		HBRUSH hBrush = CreateSolidBrush(color);//Рисует заливку фигуры
+
+	//	}
+	//	~TDI()
+	//	{
+	//		SelectObject(::HDC::hdc, hPen);
+	//		SelectObject(hdc, hBrush);
+	//	}
+	//};
 
 	class Shape
 	{
@@ -27,6 +47,13 @@ namespace Geometry
 		int start_x;
 		int start_y;
 		int line_width;
+
+		HWND hwnd = GetConsoleWindow();
+		HDC hdc = GetDC(hwnd);//DC - Это то, на чем мы будем рисовать
+		HPEN hPen = CreatePen(PS_SOLID, 5, color);//PEN карандаш рисует контур фигуры
+		HBRUSH hBrush = CreateSolidBrush(color);//Рисует заливку фигуры
+
+
 	public:
 		static const int MIN_START_X = 100;
 		static const int MIN_START_Y = 100;
@@ -88,6 +115,13 @@ namespace Geometry
 		virtual double get_area()const = 0;
 		virtual double get_perimetr()const = 0;
 		virtual void draw()const = 0;
+		/*virtual void _draw()const
+		{
+			GDI_INI
+			(0,0,0,0,0);
+			GDI_DEL
+		}*/
+
 		virtual void info()const
 		{
 			// << "Длина стороны квадрата: " << get_side() << endl;
@@ -174,26 +208,27 @@ namespace Geometry
 		}
 		void draw()const override
 		{
-			//Получаем окно консоли
-			HWND hwnd = GetConsoleWindow();
-			//Получаем контекст устройства (DC - Device Context)для окна консоли
-			HDC hdc = GetDC(hwnd);//DC - Это то, на чем мы будем рисовать
+			////Получаем окно консоли
+			//HWND hwnd = GetConsoleWindow();
+			////Получаем контекст устройства (DC - Device Context)для окна консоли
+			//HDC hdc = GetDC(hwnd);//DC - Это то, на чем мы будем рисовать
 
-			//Создадим инструменты которыми будем рисовать:
-			HPEN hPen = CreatePen(PS_SOLID, 5, color);//PEN карандаш рисует контур фигуры
-			HBRUSH hBrush = CreateSolidBrush(color);//Рисует заливку фигуры
-			//Выберем созданные инструменты:
-			SelectObject(hdc, hPen);
-			SelectObject(hdc, hBrush);
-			//После того все необходимые инструменты созданы и выбраны
-			//можно рисовать:
-			::Rectangle(hdc, start_x, start_y, start_x + width, start_y + height);
+			////Создадим инструменты которыми будем рисовать:
+			//HPEN hPen = CreatePen(PS_SOLID, 5, color);//PEN карандаш рисует контур фигуры
+			//HBRUSH hBrush = CreateSolidBrush(color);//Рисует заливку фигуры
+			////Выберем созданные инструменты:
+			//SelectObject(hdc, hPen);
+			//SelectObject(hdc, hBrush);
+			////После того все необходимые инструменты созданы и выбраны
+			////можно рисовать:
+			GDI_INI
+				::Rectangle(hdc, start_x, start_y, start_x + width, start_y + height);
+			GDI_DEL
+				////hdc, hPen & hBrush занимают ресурсы, а ресурсы надо освобождать:
+				//DeleteObject(hBrush);
+				//DeleteObject(hPen);
 
-			//hdc, hPen & hBrush занимают ресурсы, а ресурсы надо освобождать:
-			DeleteObject(hBrush);
-			DeleteObject(hPen);
-
-			ReleaseDC(hwnd, hdc);
+				//ReleaseDC(hwnd, hdc);
 
 		}
 		void info()const override
@@ -239,25 +274,16 @@ namespace Geometry
 		}
 		void draw()const override
 		{
-			HWND hwnd = GetConsoleWindow();
-			HDC hdc = GetDC(hwnd);
-			HPEN hPen = CreatePen(PS_SOLID, line_width, color);
-			HBRUSH hBrush = CreateSolidBrush(color);
-
-			SelectObject(hdc, hPen);
-			SelectObject(hdc, hBrush);
-			::Ellipse(hdc, start_x, start_y, start_x + get_diameter(), start_y + get_diameter());
-
-			DeleteObject(hBrush);
-			DeleteObject(hPen);
-			ReleaseDC(hwnd, hdc);
+			GDI_INI
+				::Ellipse(hdc, start_x, start_y, start_x + get_diameter(), start_y + get_diameter());
+			GDI_DEL
 		}
 
 	};
 	class Triangle :public Shape
 	{
 	public:
-		Triangle(SHAPE_TAKE_PARAMETERS):Shape(SHAPE_GIVE_PARAMETERS){}
+		Triangle(SHAPE_TAKE_PARAMETERS) :Shape(SHAPE_GIVE_PARAMETERS) {}
 		virtual double get_height()const = 0;
 
 	};
@@ -280,7 +306,7 @@ namespace Geometry
 		}
 		double get_height()const override
 		{
-			return sqrt(pow(side,2)-pow(side/2,2));
+			return sqrt(pow(side, 2) - pow(side / 2, 2));
 		}
 		double get_area()const override
 		{
@@ -292,27 +318,17 @@ namespace Geometry
 		}
 		void draw()const override
 		{
-			HWND hwnd = GetConsoleWindow();
-			HDC hdc = GetDC(hwnd);
-			HPEN hPen = CreatePen(PS_SOLID, line_width, color);
-			HBRUSH hBrush = CreateSolidBrush(color);
-
-			SelectObject(hdc, hPen);
-			SelectObject(hdc, hBrush);
-
-			const POINT vertices[] =
+			GDI_INI
+				const POINT vertices[] =
 			{
 				{start_x,start_y + get_height()},
 				{start_x + side, start_y + get_height()},
 				{start_x + side / 2, start_y}
 			};
 			::Polygon(hdc, vertices, 3);
-
-			DeleteObject(hBrush);
-			DeleteObject(hPen);
-			ReleaseDC(hwnd, hdc);
+			GDI_DEL
 		}
-		
+
 	};
 }
 
