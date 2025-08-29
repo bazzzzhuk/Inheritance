@@ -43,15 +43,18 @@ namespace Geometry
 	class Shape
 	{
 	protected:
+		static int counter;
+		static HWND hwnd;
+		static HDC hdc;
+		HPEN hPen;
+			HBRUSH hBrush;
 		Color color;
 		int start_x;
 		int start_y;
 		int line_width;
-
-		HWND hwnd = GetConsoleWindow();
-		HDC hdc = GetDC(hwnd);//DC - Это то, на чем мы будем рисовать
-		HPEN hPen = CreatePen(PS_SOLID, 5, color);//PEN карандаш рисует контур фигуры
-		HBRUSH hBrush = CreateSolidBrush(color);//Рисует заливку фигуры
+		//HDC hdc = GetDC(hwnd);//DC - Это то, на чем мы будем рисовать
+		//HPEN hPen = CreatePen(PS_SOLID, 5, color);//PEN карандаш рисует контур фигуры
+		//HBRUSH hBrush = CreateSolidBrush(color);//Рисует заливку фигуры
 
 
 	public:
@@ -129,7 +132,16 @@ namespace Geometry
 			cout << "Периметр квадрата: " << get_perimetr() << endl;
 			draw();
 		}
+		~Shape()
+		{
+
+			counter--;
+			if (counter == 0)ReleaseDC(hwnd, hdc);
+		}
 	};
+	int Shape::counter = 0;
+	HWND Shape::hwnd = GetConsoleWindow();
+	HDC Shape::hdc = NULL;
 	/*class Square :public Shape
 	{
 		double side;
